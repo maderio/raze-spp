@@ -1,6 +1,6 @@
 <?php
 
-define('BASE_URL', 'http://localhost/raze-spp/public');
+define('BASE_URL', 'http://localhost/raze-spp');
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'pembayaran_spp');
