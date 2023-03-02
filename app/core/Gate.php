@@ -16,15 +16,15 @@ class Gate
     if (isset($_SESSION['user'])) {
       switch ($_SESSION['user']['role']) {
         case 1:
-          header('location: ' . BASE_URL . '/admin');
+          header('location: ' . BASE_URL);
           exit;
           break;
         case 2:
-          header('location: ' . BASE_URL . '/staff');
+          header('location: ' . BASE_URL);
           exit;
           break;
         default:
-          header('location: ' . BASE_URL . '/student');
+          header('location: ' . BASE_URL);
           exit;
           break;
       }
