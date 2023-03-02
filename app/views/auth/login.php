@@ -12,6 +12,7 @@
                   <h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
                 </div>
                 <form class="user" action="<?= BASE_URL; ?>/auth/login" method="POST">
+                  <?php Flasher::flash() ?>
                   <div class="form-group">
                     <input type="text" name="username" class="form-control form-control-user" placeholder="Nama Pengguna" required>
                   </div>
