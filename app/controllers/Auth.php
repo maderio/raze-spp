@@ -21,6 +21,8 @@ class Auth extends Controller
           $_SESSION['user']['id_petugas'] = $this->model('petugas_model')->getPetugasByIdPengguna($user['id_pengguna'])['id_petugas'];
         }
         $this->directTo();
+      } else {
+        Flasher::setFlash('danger', 'Nama Pengguna atau Sandi salah!');
       }
     }
 
