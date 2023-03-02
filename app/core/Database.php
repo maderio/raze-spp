@@ -29,6 +29,7 @@ class Database
   public function query($query)
   {
     $this->stmt = $this->dbh->prepare($query);
+    return $this;
   }
 
   public function bind($param, $value, $type = null)
@@ -50,11 +51,21 @@ class Database
       }
     }
     $this->stmt->bindValue($param, $value, $type);
+    return $this;
+  }
+
+  public function binds($value)
+  {
+    foreach ($value as $k => $v) {
+      $this->bind($k, $v);
+    }
+    return $this;
   }
 
   public function execute()
   {
     $this->stmt->execute();
+    return $this;
   }
 
   public function fetchAll()

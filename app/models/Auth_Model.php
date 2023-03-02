@@ -13,21 +13,25 @@ class Auth_Model
   public function login($data)
   {
     $query  = "SELECT * FROM {$this->table} WHERE username = :username AND password = :password";
-    $this->db->query($query);
-    $this->db->bind('username', $data['username']);
-    $this->db->bind('password', md5($data['password'] . SALT));
-    return $this->db->fetch();
+    return $this->db->query($query)
+      ->binds([
+        'username' => $data['username'],
+        'password' => md5($data['password'] . SALT)
+      ])
+      ->fetch();
   }
 
   public function register($data)
   {
     $query  = "INSERT INTO {$this->table} VALUES(NULL, :username, :password, :role)";
-    $this->db->query($query);
-    $this->db->bind('username', $data['username']);
-    $this->db->bind('password', $data['password']);
-    $this->db->bind('role', 3);
-    $this->db->execute();
-    return $this->db->rowCount();
+    return $this->db->query($query)
+      ->binds([
+        'username' => $data['username'],
+        'password' => md5($data['password'] . SALT),
+        'role'  => 3
+      ])
+      ->execute()
+      ->rowCount();
   }
 
   public function getNamaPenggunaByRoleAndId($role, $id)
@@ -44,17 +48,12 @@ class Auth_Model
         break;
     }
     $query = "SELECT nama FROM {$user} WHERE id_{$user} = :id";
-    $this->db->query($query);
-    $this->db->bind('id', $id);
-    return $this->db->fetch()['nama'];
+    return $this->db->query($query)->bind('id', $id)->fetch()['nama'];
   }
 
   public function deletePenggunaById($id)
   {
     $query = "DELETE FROM {$this->table} WHERE id_pengguna = :id";
-    $this->db->query($query);
-    $this->db->bind('id', $id);
-    $this->db->execute();
-    return $this->db->rowCount();
+    return $this->db->query($query)->bind('id', $id)->execute()->rowCount();
   }
 }
