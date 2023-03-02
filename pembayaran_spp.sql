@@ -39,7 +39,8 @@ CREATE TABLE `kelas` (
 
 INSERT INTO `kelas` (`id_kelas`, `nama`, `kompetensi_keahlian`) VALUES
 (1, 'RPL', 'Rekayasa Perangkat Lunak'),
-(2, 'MM', 'Multi Media');
+(2, 'MM', 'Multi Media'),
+(3, 'TKJ', 'Teknik Komputer Jaringan');
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,8 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`id_pembayaran`, `tahun_ajaran`, `nominal`) VALUES
-(1, '2022/2023', 1200000);
+(1, '2021/2023', 150000),
+(2, '2022/2023', 200000);
 
 -- --------------------------------------------------------
 
@@ -78,10 +80,10 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `role`) VALUES
-(1, 'riorenata', 'riorenata', 1),
-(3, 'yuda', 'yuda', 3),
-(4, 'ridho', 'ridho', 3),
-(5, '28892', 'e0e93ef9fba9598319005e69e0d48499', 3);
+(1, 'riorenata', '6fadb620f1df79d40018543c5efa07e5', 1),
+(2, 'admin', '1ceba3f6d6e51a9fb2cf7f55aab9143c', 1),
+(3, 'petugas', '3d6c48adfcb424f7492302f5583b67d4', 2),
+(4, 'siswa', '257298b87d10bf21f9ab1b92b71e838b', 3);
 
 -- --------------------------------------------------------
 
@@ -100,7 +102,9 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`id_petugas`, `nama`, `id_pengguna`) VALUES
-(1, 'Rio Renata', 1);
+(1, 'Rio Renata', 1),
+(2, 'Admin', 2),
+(3, 'Petugas', 3);
 
 -- --------------------------------------------------------
 
@@ -125,8 +129,8 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id_siswa`, `nisn`, `nis`, `nama`, `alamat`, `telepon`, `id_kelas`, `id_pengguna`, `id_pembayaran`) VALUES
-(1, '1234567890', '12345', 'Yuda Pradjeska', 'Jl. Menuju Senang', '0123456789', 1, 3, 1),
-(2, '5172882129', '28892', 'I Made Rio Renata', 'Jl. Gemitir No. 105', '081246599468', 1, 5, 1);
+(1, '0046492995', '28892', 'I Made Rio Renata', 'Jl. Gemitir No. 105', '081246599468', 1, 1, 1),
+(2, '0000000000', '00000', 'Siswa', 'Bali', '000000000000', 2, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -143,26 +147,6 @@ CREATE TABLE `transaksi` (
   `id_petugas` int(11) NOT NULL,
   `id_pembayaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `transaksi`
---
-
-INSERT INTO `transaksi` (`id_transaksi`, `tanggal_bayar`, `bulan_dibayar`, `tahun_dibayar`, `id_siswa`, `id_petugas`, `id_pembayaran`) VALUES
-(6, '2023-03-02 01:27:00', 7, 2023, 1, 1, 1),
-(7, '2023-03-02 01:27:00', 8, 2023, 1, 1, 1),
-(8, '2023-03-02 01:27:00', 9, 2023, 1, 1, 1),
-(9, '2023-03-02 01:27:00', 10, 2023, 1, 1, 1),
-(10, '2023-03-02 01:27:00', 11, 2023, 1, 1, 1),
-(11, '2023-03-02 01:27:41', 7, 2023, 2, 1, 1),
-(12, '2023-03-02 01:27:41', 8, 2023, 2, 1, 1),
-(13, '2023-03-02 01:28:55', 9, 2023, 2, 1, 1),
-(14, '2023-03-02 08:12:48', 10, 2023, 2, 1, 1),
-(15, '2023-03-02 09:23:49', 11, 2023, 2, 1, 1),
-(16, '2023-03-02 09:25:01', 11, 2023, 2, 1, 1),
-(17, '2023-03-02 09:26:07', 12, 2023, 2, 1, 1),
-(18, '2023-03-02 09:26:27', 1, 2023, 2, 1, 1),
-(19, '2023-03-02 09:26:27', 2, 2023, 2, 1, 1);
 
 --
 -- Indexes for dumped tables
