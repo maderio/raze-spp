@@ -10,15 +10,11 @@ class Auth extends Controller
     if (!empty($_POST)) {
       $user = $this->model('auth_model')->login($_POST);
       if ($user) {
-        unset($_SESSION['user']);
-        $_SESSION['user'] = [
-          'id'        => $user['id_pengguna'],
-          'name'      => $this->model('auth_model')->getNamaPenggunaByRoleAndId($user['role'], $user['id_pengguna']),
-          'username'  => $user['username'],
-          'role'      => $user['role'],
-        ];
+        $this->model('auth_model')->setUserSession($user);
         if ($user['role'] < 3) {
           $_SESSION['user']['id_petugas'] = $this->model('petugas_model')->getPetugasByIdPengguna($user['id_pengguna'])['id_petugas'];
+        } else {
+          $_SESSION['user']['id_siswa'] = $this->model('siswa_model')->getSiswaByIdPengguna($user['id_pengguna'])['id_siswa'];
         }
         $this->directTo();
       } else {

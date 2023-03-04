@@ -37,6 +37,17 @@ class Siswa_Model
     return $this->db->query($query)->bind('id', $id)->fetch();
   }
 
+  public function getSiswaByIdPengguna($id)
+  {
+    $query = "SELECT siswa.*, pengguna.*, pembayaran.*, kelas.nama as nama_kelas, kelas.kompetensi_keahlian
+               FROM {$this->table}
+               LEFT JOIN pengguna ON siswa.id_pengguna = pengguna.id_pengguna
+               LEFT JOIN pembayaran ON siswa.id_pembayaran = pembayaran.id_pembayaran
+               LEFT JOIN kelas ON siswa.id_kelas = kelas.id_kelas
+               WHERE pengguna.id_pengguna = :id";
+    return $this->db->query($query)->bind('id', $id)->fetch();
+  }
+
   public function createSiswa($data)
   {
     $user  = "INSERT INTO pengguna VALUES(NULL, :username, :password, :role)";
@@ -85,6 +96,18 @@ class Siswa_Model
         'id_kelas' => $data['id_kelas'],
         'id_pembayaran' => $data['id_pembayaran'],
         'id_siswa' => $data['id_siswa'],
+      ])
+      ->execute()
+      ->rowCount();
+  }
+
+  public function updateNamaSiswa($data)
+  {
+    $query = "UPDATE {$this->table} SET nama = :nama WHERE id_siswa = :id";
+    return $this->db->query($query)
+      ->binds([
+        'nama' => $data['nama'],
+        'id' => $data['id_siswa'],
       ])
       ->execute()
       ->rowCount();

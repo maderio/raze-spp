@@ -51,6 +51,17 @@ class Auth_Model
     return $this->db->query($query)->bind('id', $id)->fetch()['nama'];
   }
 
+  public function setUserSession($data)
+  {
+    unset($_SESSION['user']);
+    $_SESSION['user'] = [
+      'id'        => $data['id_pengguna'],
+      'name'      => $this->getNamaPenggunaByRoleAndId($data['role'], $data['id_pengguna']),
+      'username'  => $data['username'],
+      'role'      => $data['role'],
+    ];
+  }
+
   public function deletePenggunaById($id)
   {
     $query = "DELETE FROM {$this->table} WHERE id_pengguna = :id";
