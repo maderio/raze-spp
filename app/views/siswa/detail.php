@@ -35,7 +35,7 @@
       <form action="<?= BASE_URL ?>/siswa/update" method="post">
         <div class="form-row">
           <div class="col-md-5 d-flex justify-content-center align-item-center">
-            <div class="col-8"><img src="<?= BASE_URL ?>/img/undraw_profile_<?= array_rand([1, 2, 3, 4]) ?>.svg" alt="<?= $data['siswa']['nama'] ?>" class="img-profile rounded-circle"></div>
+            <div class="col-8"><img src="<?= BASE_URL ?>/img/undraw_profile_<?= array_rand([1, 2, 3, 4]) ?>.svg" alt="<?= $data['siswa']['nama'] ?>" class="img-profile rounded-circle shadow-lg"></div>
           </div>
 
           <div class="col-md-7">

@@ -1,7 +1,7 @@
 <div class="container-fluid">
 
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <h1 class="h3 mb-0 text-gray-800"><?= $data['title'] ?></h1>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
   </div>
 
@@ -34,7 +34,7 @@
       <form action="<?= BASE_URL ?>/petugas/update" method="post">
         <div class="form-row">
           <div class="col-md-5 d-flex justify-content-center align-item-center">
-            <div class="col-8"><img src="<?= BASE_URL ?>/img/undraw_profile_<?= array_rand([1, 2, 3, 4]) ?>.svg" alt="<?= $data['petugas']['nama'] ?>" class="img-profile rounded-circle"></div>
+            <div class="col-8"><img src="<?= BASE_URL ?>/img/undraw_profile_<?= array_rand([1, 2, 3, 4]) ?>.svg" alt="<?= $data['petugas']['nama'] ?>" class="img-profile rounded-circle shadow-lg"></div>
           </div>
 
           <div class="col-md-7">
