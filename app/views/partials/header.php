@@ -35,8 +35,8 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+        <div class="sidebar-brand-icon">
+          <img src="<?= BASE_URL . '/img/logo-ellipse.svg' ?>" alt="logo" class="rounded-circle" width="50px">
         </div>
         <div class="sidebar-brand-text mx-3">SIPP🐱‍🏍</div>
       </a>

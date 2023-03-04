@@ -5,7 +5,9 @@
       <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
           <div class="row">
-            <div class="col-lg-6 d-none d-lg-block"><img src="<?= BASE_URL; ?>/img/illustration_auth.jpg" alt="illuatration" width="400"></div>
+            <div class="col-lg-6 d-none d-lg-block text-center">
+              <img src="<?= BASE_URL; ?>/img/logo-rectangle.svg" alt="illuatration" width="100%">
+            </div>
             <div class="col-lg-6">
               <div class="p-5">
                 <div class="text-center">
