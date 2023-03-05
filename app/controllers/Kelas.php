@@ -21,7 +21,7 @@ class Kelas extends Controller
 
   public function create()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('kelas_model')->createKelas($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil menambahkan data kelas.');
         $this->directTo('/kelas');
@@ -34,7 +34,7 @@ class Kelas extends Controller
 
   public function update()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('kelas_model')->updateKelas($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data kelas.');
         $this->directTo('/kelas');

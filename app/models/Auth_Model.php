@@ -34,6 +34,12 @@ class Auth_Model
       ->rowCount();
   }
 
+  public function getPenggunaByCookie($cookie)
+  {
+    $query = "SELECT * FROM {$this->table} WHERE cookie = :cookie";
+    return $this->db->bind('cookie', $cookie)->fetch();
+  }
+
   public function getNamaPenggunaByRoleAndId($role, $id)
   {
     switch ($role) {
@@ -60,6 +66,20 @@ class Auth_Model
       'username'  => $data['username'],
       'role'      => $data['role'],
     ];
+  }
+
+  public function setUserCookie($data)
+  {
+    $cookie = md5($data['username'] . SALT . time());
+    setcookie('user', $cookie, time() + 3600, '/');
+    $query = "UPDATE {$this->table} SET cookie = :cookie WHERE id_pengguna = :id";
+    return $this->db->query($query)
+      ->binds([
+        'cookie' => $cookie,
+        'id'  => $data['id_pengguna']
+      ])
+      ->execute()
+      ->rowCount();
   }
 
   public function deletePenggunaById($id)

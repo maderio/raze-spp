@@ -32,7 +32,7 @@ class Petugas extends Controller
 
   public function create()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($_POST['password'] == $_POST['confirm_password']) {
         if ($this->model('petugas_model')->createPetugas($_POST) > 0) {
           Flasher::setFlash('success', 'Berhasil menambahkan data petugas.');
@@ -50,7 +50,7 @@ class Petugas extends Controller
 
   public function update()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('petugas_model')->updatePetugas($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data petugas.');
         $this->directTo('/petugas');

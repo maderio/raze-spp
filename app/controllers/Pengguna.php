@@ -11,18 +11,26 @@ class Pengguna extends Controller
   {
     $data = [
       'title' => 'Pengguna',
-      'pengguna' => [
-        'name' => ''
-      ]
     ];
     $this->view('partials/header', $data);
     $this->view('pengguna/index', $data);
     $this->view('partials/footer');
   }
 
+  public function riwayat_login()
+  {
+    $data = [
+      'title' => 'Riwayat Login',
+      'riwayat_login' => $this->model('pengguna_model')->getRiwayatLoginById($_SESSION['user']['id']),
+    ];
+    $this->view('partials/header', $data);
+    $this->view('pengguna/riwayat_login', $data);
+    $this->view('partials/footer');
+  }
+
   public function update()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $data = [
         'id_pengguna' => $_SESSION['user']['id'],
         'nama'        => $_POST['nama'],

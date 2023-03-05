@@ -21,7 +21,7 @@ class Pembayaran extends Controller
 
   public function create()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('pembayaran_model')->createPembayaran($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil menambahkan data pembayaran.');
         $this->directTo('/pembayaran');
@@ -34,7 +34,7 @@ class Pembayaran extends Controller
 
   public function update()
   {
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('pembayaran_model')->updatePembayaran($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data pembayaran.');
         $this->directTo('/pembayaran');

@@ -61,29 +61,29 @@
 
               <?php
               $semester = 1;
-              foreach ($data['bulan'] as $key) :
+              foreach ($data['bulan'] as $arr) :
               ?>
                 <h6 class="font-weight-bold text-gray-800">Semester <?= $semester++ ?></h6>
                 <hr>
                 <div class="row">
-                  <?php foreach ($key as $bulan => $nomor_bulan) : ?>
+                  <?php foreach ($arr as $key => $value) : ?>
                     <div class="col-sm-12 col-md-6 col-xl-4 mb-3 spp-card">
 
-                      <?php if (in_array($nomor_bulan, $data['bulanDibayar'])) : ?>
-                        <div class="form-group ml-4">
-                          <input type="checkbox" name="spp_semester_<?= $nomor_bulan ?>" class="btn-check" id="sppSemester_<?= $nomor_bulan ?>" checked disabled autocomplete="off">
-                          <label class="btn btn-secondary" for="sppSemester_<?= $nomor_bulan ?>">
-                            <h6 class="text-uppercase"><?= $bulan ?></h6>
-                            <h4 class="text-gray-800 font-weight-bold">Rp <?= $data['siswa']['nominal'] ?></h4>
+                      <?php if (in_array($key, $data['bulanDibayar'])) : ?>
+                        <div class="form-group">
+                          <input type="checkbox" name="spp_semester_<?= $key ?>" class="btn-check" id="sppSemester_<?= $key ?>" checked disabled autocomplete="off">
+                          <label class="btn btn-secondary w-100" for="sppSemester_<?= $key ?>">
+                            <h6 class="text-uppercase"><?= $value ?></h6>
+                            <h4 class="font-weight-bold">Lunas</h4>
                           </label>
                         </div>
 
                       <?php else : ?>
-                        <div class="form-group ml-4">
-                          <input type="checkbox" name="bulan_dibayar[]" class="btn-check checkbox-spp" id="sppSemester_<?= $nomor_bulan ?>" data-nominal="<?= $data['siswa']['nominal'] ?>" value="<?= $nomor_bulan ?>" autocomplete="off">
-                          <label class="btn btn-outline-success" for="sppSemester_<?= $nomor_bulan ?>">
-                            <h6 class="text-uppercase"><?= $bulan ?></h6>
-                            <h4 class="text-gray-800 font-weight-bold">Rp <?= $data['siswa']['nominal'] ?></h4>
+                        <div class="form-group">
+                          <input type="checkbox" name="bulan_dibayar[]" class="btn-check checkbox-spp" id="sppSemester_<?= $key ?>" data-nominal="<?= $data['siswa']['nominal'] ?>" value="<?= $key ?>" autocomplete="off">
+                          <label class="btn btn-outline-success w-100" for="sppSemester_<?= $key ?>">
+                            <h6 class="text-uppercase"><?= $value ?></h6>
+                            <h4 class="font-weight-bold">Rp <?= $data['siswa']['nominal'] ?></h4>
                           </label>
                         </div>
 

@@ -21,6 +21,7 @@ class App
     $this->controller = new $this->controller;
 
     if (isset($url[1])) {
+      $url[1] = str_replace('-', '_', $url[1]);
       if (method_exists($this->controller, $url[1])) {
         $this->method = $url[1];
         unset($url[1]);
@@ -40,7 +41,14 @@ class App
       $url  = rtrim($_GET['url'], '/');
       $url  = filter_var($url, FILTER_SANITIZE_URL);
       $url  = explode('/', $url);
-      return $url;
+      return $this->filterController($url);
     }
+  }
+
+  public function filterController($url)
+  {
+    $url[0] = str_replace('_', '', $url[0]);
+    $url[0] = str_replace('-', '_', $url[0]);
+    return $url;
   }
 }

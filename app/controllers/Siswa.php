@@ -41,7 +41,7 @@ class Siswa extends Controller
   public function create()
   {
     Gate::isAdmin();
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('siswa_model')->createSiswa($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil menambahkan data siswa.');
         $this->directTo('/siswa');
@@ -55,7 +55,7 @@ class Siswa extends Controller
   public function update()
   {
     Gate::isAdmin();
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('student_model')->updateSiswa($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data siswa.');
         $this->directTo('/siswa');

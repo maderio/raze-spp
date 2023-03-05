@@ -7,10 +7,12 @@ class Auth extends Controller
   {
     Gate::isNotLoggedIn();
 
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $user = $this->model('auth_model')->login($_POST);
       if ($user) {
+        $user['cookie'] = md5($user['username'] . $user['password'] . time());
         $this->model('auth_model')->setUserSession($user);
+        $this->model('auth_model')->setUserCookie($user);
         if ($user['role'] < 3) {
           $_SESSION['user']['id_petugas'] = $this->model('petugas_model')->getPetugasByIdPengguna($user['id_pengguna'])['id_petugas'];
         } else {
@@ -31,7 +33,7 @@ class Auth extends Controller
   {
     Gate::isNotLoggedIn();
 
-    if (!empty($_POST)) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('auth_model')->register($_POST) > 0) {
         $this->directTo('/auth/login');
       }

@@ -18,8 +18,36 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pembayaran_spp`
+-- Database: `raze_spp`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_transaksi` (IN `p_bulan_dibayar` INT(2), IN `p_tahun_dibayar` INT(4), IN `p_id_siswa` INT, IN `p_id_petugas` INT, IN `p_id_pembayaran` INT)   BEGIN
+	DECLARE total_transaksi INT;
+	SELECT COUNT(*) INTO total_transaksi
+    FROM transaksi WHERE id_siswa = P_id_siswa AND id_pembayaran = p_id_pembayaran AND bulan_dibayar = p_bulan_dibayar;
+    IF total_transaksi = 0 THEN
+		INSERT INTO transaksi(tanggal_bayar, bulan_dibayar, tahun_dibayar, id_siswa, id_petugas, id_pembayaran)
+        VALUES(NOW(), p_bulan_dibayar, p_tahun_dibayar, p_id_siswa, p_id_petugas, p_id_pembayaran);
+    END IF;
+END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_bulan_dibayar` (`p_id_siswa` INT) RETURNS VARCHAR(100) CHARSET latin1  BEGIN
+	DECLARE bulan VARCHAR(100) DEFAULT '';
+    SELECT GROUP_CONCAT(bulan_dibayar ORDER BY bulan_dibayar SEPARATOR ',')
+    INTO bulan
+    FROM transaksi
+    WHERE id_siswa = p_id_siswa;
+    RETURN bulan;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -72,6 +100,7 @@ CREATE TABLE `pengguna` (
   `id_pengguna` int(11) NOT NULL,
   `username` varchar(25) NOT NULL,
   `password` varchar(128) NOT NULL,
+  `cookie` text,
   `role` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -79,11 +108,22 @@ CREATE TABLE `pengguna` (
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `role`) VALUES
-(1, 'riorenata', '6fadb620f1df79d40018543c5efa07e5', 1),
-(2, 'admin', '1ceba3f6d6e51a9fb2cf7f55aab9143c', 1),
-(3, 'petugas', '3d6c48adfcb424f7492302f5583b67d4', 2),
-(4, 'siswa', '257298b87d10bf21f9ab1b92b71e838b', 3);
+INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `cookie`, `role`) VALUES
+(1, 'riorenata', '6fadb620f1df79d40018543c5efa07e5', NULL, 1),
+(2, 'admin', '1ceba3f6d6e51a9fb2cf7f55aab9143c', NULL, 1),
+(3, 'petugas', '3d6c48adfcb424f7492302f5583b67d4', NULL, 2),
+(4, 'siswa', '257298b87d10bf21f9ab1b92b71e838b', NULL, 3);
+
+--
+-- Triggers `pengguna`
+--
+DELIMITER $$
+CREATE TRIGGER `tambah_riwayat_login` AFTER UPDATE ON `pengguna` FOR EACH ROW BEGIN
+	INSERT INTO riwayat_login
+    VALUES(NULL, OLD.id_pengguna, NOW());
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -105,6 +145,18 @@ INSERT INTO `petugas` (`id_petugas`, `nama`, `id_pengguna`) VALUES
 (1, 'Rio Renata', 1),
 (2, 'Admin', 2),
 (3, 'Petugas', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `riwayat_login`
+--
+
+CREATE TABLE `riwayat_login` (
+  `id_login` int(11) NOT NULL,
+  `id_pengguna` int(11) NOT NULL,
+  `waktu` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -178,6 +230,13 @@ ALTER TABLE `petugas`
   ADD KEY `id_pengguna` (`id_pengguna`);
 
 --
+-- Indexes for table `riwayat_login`
+--
+ALTER TABLE `riwayat_login`
+  ADD PRIMARY KEY (`id_login`),
+  ADD KEY `pengguna` (`id_pengguna`);
+
+--
 -- Indexes for table `siswa`
 --
 ALTER TABLE `siswa`
@@ -203,37 +262,43 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pengguna` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `riwayat_login`
+--
+ALTER TABLE `riwayat_login`
+  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `id_petugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_petugas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

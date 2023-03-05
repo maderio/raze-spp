@@ -16,17 +16,35 @@ class Transaksi_Model
     return $this->db->query($query)->execute()->rowCount();
   }
 
+  public function getAllTransaksi($sort = 'DESC')
+  {
+    $query = "SELECT * FROM {$this->table} ORDER BY id_transaksi {$sort}";
+    return $this->db->query($query)->fetchAll();
+  }
+
   public function getTransaksiByIdSiswa($id)
   {
     $query = "SELECT * FROM {$this->table} WHERE id_siswa = :id";
     return $this->db->query($query)->bind('id', $id)->fetchAll();
   }
 
+  public function getBulanDibayarByIdSiswa($id)
+  {
+    $query = "SELECT get_bulan_dibayar(:id)";
+    $bulan = $this->db->query($query)->bind('id', $id)->fetch();
+    $bulan = $bulan["get_bulan_dibayar({$id})"];
+    if ($bulan !== null) {
+      $bulan = explode(',', $bulan);
+      return $bulan;
+    }
+    return [];
+  }
+
   public function createTransaksi($data)
   {
     $year = date('Y');
     foreach ($data['bulan_dibayar'] as $month) {
-      $query = "INSERT INTO {$this->table} VALUES(NULL, NOW(), :bulan_dibayar, :tahun_dibayar, :id_siswa, :id_petugas, :id_pembayaran)";
+      $query = "CALL create_transaksi(:bulan_dibayar, :tahun_dibayar, :id_siswa, :id_petugas, :id_pembayaran)";
       $this->db->query($query)
         ->binds([
           'bulan_dibayar' => $month,
