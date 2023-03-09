@@ -82,6 +82,31 @@ class Transaksi extends Controller
     }
   }
 
+  public function cetak()
+  {
+    Gate::isPetugas();
+    $siswa = $this->model('siswa_model')->getAllSiswa();
+    $bulan = [
+      ['7' => 'juli', '8' => 'agustus', '9' => 'september', '10' => 'oktober', '11' => 'november', '12' => 'desember'],
+      ['1' => 'januari', '2' => 'februari', '3' => 'maret', '4' => 'april', '5' => 'mei', '6' => 'juni'],
+    ];
+    $bulanDibayar = [];
+    foreach ($siswa as $key) {
+      $bulanDibayar[$key['id_siswa']] = [];
+      $transaksi = $this->model('transaksi_model')->getBulanDibayarByIdSiswa($key['id_siswa']);
+      foreach ($transaksi as $trx) {
+        array_push($bulanDibayar[$key['id_siswa']], $trx);
+      }
+    }
+    $data = [
+      'title' => 'Riwayat Transaksi',
+      'bulan'         => $bulan,
+      'siswa'         => $siswa,
+      'bulanDibayar'  => $bulanDibayar,
+    ];
+    $this->view('transaksi/cetak', $data);
+  }
+
   public function create()
   {
     Gate::isPetugas();
