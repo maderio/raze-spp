@@ -53,7 +53,7 @@ class Auth_Model
         $user = 'siswa';
         break;
     }
-    $query = "SELECT nama FROM {$user} WHERE id_{$user} = :id";
+    $query = "SELECT nama FROM {$user} WHERE id_pengguna = :id";
     return $this->db->query($query)->bind('id', $id)->fetch()['nama'];
   }
 

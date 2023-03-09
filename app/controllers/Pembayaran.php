@@ -5,7 +5,7 @@ class Pembayaran extends Controller
 
   public function __construct()
   {
-    Gate::isLoggedIn();
+    Gate::isAdmin();
   }
 
   public function index()

@@ -5,7 +5,7 @@ class Kelas extends Controller
 
   public function __construct()
   {
-    Gate::isLoggedIn();
+    Gate::isPetugas();
   }
 
   public function index()

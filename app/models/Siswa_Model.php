@@ -50,7 +50,7 @@ class Siswa_Model
 
   public function createSiswa($data)
   {
-    $user  = "INSERT INTO pengguna VALUES(NULL, :username, :password, :role)";
+    $user  = "INSERT INTO pengguna VALUES(NULL, :username, :password, NULL, :role)";
     $this->db->query($user)
       ->binds([
         'username' => $data['nis'],

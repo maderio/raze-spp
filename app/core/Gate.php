@@ -1,6 +1,6 @@
 <?php
 
-class Gate extends Controller
+class Gate
 {
 
   public static function isLoggedIn()
@@ -13,13 +13,6 @@ class Gate extends Controller
 
   public static function isNotLoggedIn()
   {
-    if (isset($_COOKIE['user'])) {
-      $user = self::model('auth_model')->getPenggunaByCookie($_COOKIE['user']);
-      if (!$user) {
-        header('location: ' . BASE_URL);
-        exit;
-      }
-    }
     if (isset($_SESSION['user'])) {
       header('location: ' . BASE_URL);
       exit;
@@ -40,7 +33,7 @@ class Gate extends Controller
   {
     self::isLoggedIn();
 
-    if ($_SESSION['user']['role'] != 2) {
+    if ($_SESSION['user']['role'] > 2) {
       header('location: ' . BASE_URL);
       exit;
     }

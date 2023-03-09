@@ -10,3 +10,4 @@ define('DB_PASS', '');
 define('SALT', 'r!y*&r@z3');
 
 date_default_timezone_set('Asia/Shanghai');
+setlocale(LC_ALL, 'id_ID');

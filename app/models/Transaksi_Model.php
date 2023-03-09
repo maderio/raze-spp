@@ -24,8 +24,18 @@ class Transaksi_Model
 
   public function getTransaksiByIdSiswa($id)
   {
-    $query = "SELECT * FROM {$this->table} WHERE id_siswa = :id";
+    $query = "SELECT {$this->table}.*, pembayaran.nominal, pembayaran.tahun_ajaran, petugas.nama AS nama_petugas
+              FROM {$this->table}
+              LEFT JOIN pembayaran ON transaksi.id_pembayaran=pembayaran.id_pembayaran
+              LEFT JOIN petugas ON transaksi.id_petugas=petugas.id_petugas
+              WHERE transaksi.id_siswa=:id";
     return $this->db->query($query)->bind('id', $id)->fetchAll();
+  }
+
+  public function getTotalTansaksiByIdSiswa($id)
+  {
+    $query = "SELECT COUNT(id_transaksi) AS total_transaksi FROM {$this->table} WHERE id_siswa=:id";
+    return $this->db->query($query)->bind('id', $id)->fetch();
   }
 
   public function getBulanDibayarByIdSiswa($id)
