@@ -5,7 +5,7 @@ class Kelas extends Controller
 
   public function __construct()
   {
-    Gate::isPetugas();
+    Middleware::isPetugas();
   }
 
   public function index()
@@ -24,10 +24,10 @@ class Kelas extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('kelas_model')->createKelas($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil menambahkan data kelas.');
-        $this->directTo('/kelas');
+        $this->redirect('/kelas');
       } else {
         Flasher::setFlash('danger', 'Gagal menambahkan data kelas!');
-        $this->directTo('/kelas');
+        $this->redirect('/kelas');
       }
     }
   }
@@ -37,10 +37,10 @@ class Kelas extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('kelas_model')->updateKelas($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data kelas.');
-        $this->directTo('/kelas');
+        $this->redirect('/kelas');
       } else {
         Flasher::setFlash('danger', 'Gagal merubah data kelas!');
-        $this->directTo('/kelas');
+        $this->redirect('/kelas');
       }
     }
   }
@@ -49,10 +49,10 @@ class Kelas extends Controller
   {
     if ($this->model('kelas_model')->deleteKelasById($id) > 0) {
       Flasher::setFlash('success', 'Berhasil menghapus data kelas.');
-      $this->directTo('/kelas');
+      $this->redirect('/kelas');
     } else {
       Flasher::setFlash('danger', 'Gagal menghapus data kelas!');
-      $this->directTo('/kelas');
+      $this->redirect('/kelas');
     }
   }
 }

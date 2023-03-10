@@ -4,12 +4,12 @@ class Transaksi extends Controller
 {
   public function __construct()
   {
-    Gate::isLoggedIn();
+    Middleware::isLoggedIn();
   }
 
   public function index()
   {
-    Gate::isPetugas();
+    Middleware::isPetugas();
     $data = [
       'title' => 'Transaksi',
       'siswa' => $this->model('siswa_model')->getAllSiswa(),
@@ -21,7 +21,7 @@ class Transaksi extends Controller
 
   public function detail($id)
   {
-    Gate::isPetugas();
+    Middleware::isPetugas();
     $siswa      = $this->model('siswa_model')->getSiswaById($id);
     $transaksi  = $this->model('transaksi_model')->getBulanDibayarByIdSiswa($siswa['id_siswa']);
     $bulan = [
@@ -46,7 +46,7 @@ class Transaksi extends Controller
   public function riwayat($id = null)
   {
     if ($id == null) {
-      Gate::isPetugas();
+      Middleware::isPetugas();
       $siswa = $this->model('siswa_model')->getAllSiswa();
       $bulan = [
         ['7' => 'juli', '8' => 'agustus', '9' => 'september', '10' => 'oktober', '11' => 'november', '12' => 'desember'],
@@ -84,7 +84,7 @@ class Transaksi extends Controller
 
   public function cetak()
   {
-    Gate::isPetugas();
+    Middleware::isPetugas();
     $siswa = $this->model('siswa_model')->getAllSiswa();
     $bulan = [
       ['7' => 'juli', '8' => 'agustus', '9' => 'september', '10' => 'oktober', '11' => 'november', '12' => 'desember'],
@@ -109,7 +109,7 @@ class Transaksi extends Controller
 
   public function create()
   {
-    Gate::isPetugas();
+    Middleware::isPetugas();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $data = [
         'id_siswa'      => $_POST['id_siswa'],
@@ -119,14 +119,14 @@ class Transaksi extends Controller
       ];
       if ($data['bulan_dibayar'] === false) {
         Flasher::setFlash('warning', '<strong>Gagal melakukan transaksi!</strong><br>Silahkan pilih bulan untuk melakukan transaksi.');
-        $this->directTo("/transaksi/detail/{$data['id_siswa']}");
+        $this->redirect("/transaksi/detail/{$data['id_siswa']}");
       }
       if ($this->model('transaksi_model')->createTransaksi($data) > 0) {
         Flasher::setFlash('success', 'Berhasil melakukan transaksi!');
-        $this->directTo("/transaksi/detail/{$data['id_siswa']}");
+        $this->redirect("/transaksi/detail/{$data['id_siswa']}");
       } else {
         Flasher::setFlash('danger', 'Gagal melakukan transaksi!');
-        $this->directTo("/transaksi/detail/{$data['id_siswa']}");
+        $this->redirect("/transaksi/detail/{$data['id_siswa']}");
       }
     }
   }

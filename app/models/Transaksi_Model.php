@@ -32,7 +32,7 @@ class Transaksi_Model
     return $this->db->query($query)->bind('id', $id)->fetchAll();
   }
 
-  public function getTotalTansaksiByIdSiswa($id)
+  public function getTotalTransaksiByIdSiswa($id)
   {
     $query = "SELECT COUNT(id_transaksi) AS total_transaksi FROM {$this->table} WHERE id_siswa=:id";
     return $this->db->query($query)->bind('id', $id)->fetch();

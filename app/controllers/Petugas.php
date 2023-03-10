@@ -5,7 +5,7 @@ class Petugas extends Controller
 
   public function __construct()
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
   }
 
   public function index()
@@ -36,14 +36,14 @@ class Petugas extends Controller
       if ($_POST['password'] == $_POST['confirm_password']) {
         if ($this->model('petugas_model')->createPetugas($_POST) > 0) {
           Flasher::setFlash('success', 'Berhasil menambahkan data petugas.');
-          $this->directTo('/petugas');
+          $this->redirect('/petugas');
         } else {
           Flasher::setFlash('danger', 'Gagal menambahkan data petugas!');
-          $this->directTo('/petugas');
+          $this->redirect('/petugas');
         }
       } else {
         Flasher::setFlash('danger', 'Password tidak sama!');
-        $this->directTo('/petugas');
+        $this->redirect('/petugas');
       }
     }
   }
@@ -53,23 +53,23 @@ class Petugas extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('petugas_model')->updatePetugas($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data petugas.');
-        $this->directTo('/petugas');
+        $this->redirect('/petugas');
       } else {
         Flasher::setFlash('danger', 'Gagal merubah data petugas!');
-        $this->directTo('/petugas');
+        $this->redirect('/petugas');
       }
     }
   }
 
   public function delete($id)
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
     if ($this->model('auth_model')->deletePenggunaById($id) > 0) {
       Flasher::setFlash('success', 'Berhasil menghapus data petugas.');
-      $this->directTo('/petugas');
+      $this->redirect('/petugas');
     } else {
       Flasher::setFlash('danger', 'Gagal menghapus data petugas!');
-      $this->directTo('/petugas');
+      $this->redirect('/petugas');
     }
   }
 }

@@ -4,7 +4,7 @@ class Generate_Password extends Controller
 {
   public function __construct()
   {
-    Gate::isNotLoggedIn();
+    Middleware::isNotLoggedIn();
   }
 
   public function index($text = '')

@@ -5,7 +5,7 @@ class Pembayaran extends Controller
 
   public function __construct()
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
   }
 
   public function index()
@@ -24,10 +24,10 @@ class Pembayaran extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('pembayaran_model')->createPembayaran($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil menambahkan data pembayaran.');
-        $this->directTo('/pembayaran');
+        $this->redirect('/pembayaran');
       } else {
         Flasher::setFlash('danger', 'Gagal menambahkan data pembayaran!');
-        $this->directTo('/pembayaran');
+        $this->redirect('/pembayaran');
       }
     }
   }
@@ -37,10 +37,10 @@ class Pembayaran extends Controller
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('pembayaran_model')->updatePembayaran($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data pembayaran.');
-        $this->directTo('/pembayaran');
+        $this->redirect('/pembayaran');
       } else {
         Flasher::setFlash('danger', 'Gagal merubah data pembayaran!');
-        $this->directTo('/pembayaran');
+        $this->redirect('/pembayaran');
       }
     }
   }
@@ -49,10 +49,10 @@ class Pembayaran extends Controller
   {
     if ($this->model('pembayaran_model')->deletePembayaranById($id) > 0) {
       Flasher::setFlash('success', 'Berhasil menghapus data pembayaran.');
-      $this->directTo('/pembayaran');
+      $this->redirect('/pembayaran');
     } else {
       Flasher::setFlash('danger', 'Gagal menghapus data pembayaran!');
-      $this->directTo('/pembayaran');
+      $this->redirect('/pembayaran');
     }
   }
 }

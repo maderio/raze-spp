@@ -4,7 +4,7 @@ class Pengguna extends Controller
 {
   public function __construct()
   {
-    Gate::isAdmin();
+    Middleware::isLoggedIn();
   }
 
   public function index()
@@ -45,7 +45,7 @@ class Pengguna extends Controller
             $data['password'] = md5($_POST['password']['new'] . SALT);
           } else {
             Flasher::setFlash('danger', 'Konfirmasi kata sandi salah!');
-            $this->directTo('/pengguna');
+            $this->redirect('/pengguna');
           }
         } else {
           $data['password'] = $password;
@@ -62,15 +62,15 @@ class Pengguna extends Controller
         if ($updates > 0) {
           $this->model('auth_model')->setUserSession($data);
           Flasher::setFlash('success', 'Profile diperbarui!');
-          $this->directTo('/pengguna');
+          $this->redirect('/pengguna');
         } else {
           Flasher::setFlash('danger', 'Gagal memperbarui profile!');
-          $this->directTo('/pengguna');
+          $this->redirect('/pengguna');
         }
         echo $updates;
       } else {
         Flasher::setFlash('danger', 'Kata Sandi yang Anda masukan salah!');
-        $this->directTo('/pengguna');
+        $this->redirect('/pengguna');
       }
     }
   }

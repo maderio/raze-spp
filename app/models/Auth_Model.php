@@ -10,7 +10,7 @@ class Auth_Model
     $this->db = new Database;
   }
 
-  public function login($data)
+  public function attempt($data)
   {
     $query  = "SELECT * FROM {$this->table} WHERE username = :username AND password = :password";
     return $this->db->query($query)
@@ -34,7 +34,7 @@ class Auth_Model
       ->rowCount();
   }
 
-  public function getPenggunaByCookie($cookie)
+  public function attemptByCookie($cookie)
   {
     $query = "SELECT * FROM {$this->table} WHERE cookie = :cookie";
     return $this->db->bind('cookie', $cookie)->fetch();

@@ -2,21 +2,28 @@
 
 class Controller
 {
-
-  public function view($view, $data = [])
+  protected function view($view, $data = [])
   {
-    require_once "../app/views/{$view}.php";
+    if (file_exists("../app/views/{$view}.php")) {
+      require_once "../app/views/{$view}.php";
+    } else {
+      die('View does not exist');
+    }
   }
 
-  public function model($model)
+  protected function model($model)
   {
-    require_once "../app/models/{$model}.php";
-    return new $model;
+    if (file_exists("../app/models/{$model}.php")) {
+      require_once "../app/models/{$model}.php";
+      return new $model;
+    } else {
+      die('Model does not exist');
+    }
   }
 
-  public function directTo($path = '')
+  protected function redirect($path = '')
   {
-    header('location: ' . BASE_URL . $path);
+    header('Location: ' . BASE_URL . $path);
     exit;
   }
 }

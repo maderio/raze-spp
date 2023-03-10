@@ -5,7 +5,7 @@ class Siswa extends Controller
 
   public function __construct()
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
   }
 
   public function index()
@@ -40,41 +40,41 @@ class Siswa extends Controller
 
   public function create()
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('siswa_model')->createSiswa($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil menambahkan data siswa.');
-        $this->directTo('/siswa');
+        $this->redirect('/siswa');
       } else {
         Flasher::setFlash('danger', 'Gagal menambahkan data siswa!');
-        $this->directTo('/siswa');
+        $this->redirect('/siswa');
       }
     }
   }
 
   public function update()
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($this->model('student_model')->updateSiswa($_POST) > 0) {
         Flasher::setFlash('success', 'Berhasil merubah data siswa.');
-        $this->directTo('/siswa');
+        $this->redirect('/siswa');
       } else {
         Flasher::setFlash('danger', 'Gagal merubah data siswa!');
-        $this->directTo('/siswa');
+        $this->redirect('/siswa');
       }
     }
   }
 
   public function delete($id)
   {
-    Gate::isAdmin();
+    Middleware::isAdmin();
     if ($this->model('auth_model')->deletePenggunaById($id) > 0) {
       Flasher::setFlash('success', 'Berhasil menghapus data siswa.');
-      $this->directTo('/student');
+      $this->redirect('/student');
     } else {
       Flasher::setFlash('danger', 'Gagal menghapus data siswa!');
-      $this->directTo('/student');
+      $this->redirect('/student');
     }
   }
 }
